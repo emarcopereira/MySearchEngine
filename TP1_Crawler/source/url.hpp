@@ -1,15 +1,18 @@
+#ifndef _url_hpp
+#define _url_hpp
+
 #include <cstring>
-#include "CkSpider.h"
+#include "../chilkat/include/CkSpider.h"
 
 class Url{
 
 	private:
-		Spider spider;
+		CkSpider *spider;
 
 	public:
 
 		Url(){
-			this->spider = new Spider();
+			this->spider = new CkSpider();
 		}
 
 		~Url(){
@@ -26,4 +29,6 @@ class Url{
 			return (strstr(url, ".br") != NULL) || (strstr(url, "br.") != NULL);
 		}
 
-}
+};
+
+#endif

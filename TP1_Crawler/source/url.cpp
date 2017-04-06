@@ -2,15 +2,17 @@
 
 /* Return canonized url */
 const char* Url::getCleanUrl(const char *url){
-	return this->spider.CanonicalizeUrl(url);
+	return this->spider->canonicalizeUrl(url);
 }
 
 /* Return url domain without 'www.' [canonize first]*/
 const char* Url::getDomain(const char *url){
-	char *domain = this->spider.getUrlDomain(url);
+	char *domain = const_cast<char*>(this->spider->getUrlDomain(url));
+	const char *clean_domain;
 
 	if(strstr(domain, "www") != NULL){
-		const char *clean_domain = strtok(domain, ".");
+		clean_domain = strtok(domain, ".");
+		clean_domain = strtok(NULL, "");
 		return clean_domain;
 	}
 
