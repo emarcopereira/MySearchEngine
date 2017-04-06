@@ -1,2 +1,2 @@
 make
-./test_url
+./test_exec

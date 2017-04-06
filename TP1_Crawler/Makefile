@@ -14,14 +14,21 @@ endif
 
 all: build
 
-build: test
-	g++ $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/test_url.o $(LIB) -o test_url
+build: test_dumper #test_url
+	#g++ $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/test_url.o $(LIB) -o test_exec
+	g++ $(OP) $(IOP) $(OBJ_DIR)/dumper.o $(OBJ_DIR)/test_dumper.o $(LIB) -o test_exec
 
-test: url
-	g++ $(OP) $(IOP) -c test/test_url.cpp -o $(OBJ_DIR)/test_url.o
+dumper: 
+	g++ $(OP) $(IOP) -c $(SRC_DIR)/dumper.cpp -o $(OBJ_DIR)/dumper.o
 
 url: 
 	g++ $(OP) $(IOP) -c $(SRC_DIR)/url.cpp -o $(OBJ_DIR)/url.o
+
+test_dumper: dumper
+	g++ $(OP) $(IOP) -c test/test_dumper.cpp -o $(OBJ_DIR)/test_dumper.o
+
+test_url: url
+	g++ $(OP) $(IOP) -c test/test_url.cpp -o $(OBJ_DIR)/test_url.o
 
 #build: main crawler scheduler utils dumper binaryheap
 #	g++ $(IOP) $(OBJ_DIR)/main.o $(OBJ_DIR)/.o $(LIB) -o main $(OP)

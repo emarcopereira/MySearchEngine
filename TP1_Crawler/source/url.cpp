@@ -1,11 +1,9 @@
 #include "url.hpp"
 
-/* Return canonized url */
 const char* Url::getCleanUrl(const char *url){
 	return this->spider->canonicalizeUrl(url);
 }
 
-/* Return url domain without 'www.' [canonize first]*/
 const char* Url::getDomain(const char *url){
 	char *domain = const_cast<char*>(this->spider->getUrlDomain(url));
 	const char *clean_domain;
@@ -19,7 +17,6 @@ const char* Url::getDomain(const char *url){
 	return domain;
 }
 
-/* Counts the number of levels of a url [canonize first] */
 int Url::getNumberLevels(const char *url){
 	int n_levels = 0;
 	int size = strlen(url);
