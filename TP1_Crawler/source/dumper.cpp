@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Dumper::Dumper(const char *folder_path, const char *file_name, const size_t &buffer_size){
+Dumper::Dumper(const char *folder_path, const char *file_name, const size_t &buffer_size, Logger *logger){
 	/* Opening File */
 	sprintf(this->file_path, "%s/%s", folder_path, file_name);
 	file = fopen(file_path, "w");
@@ -15,7 +15,7 @@ Dumper::Dumper(const char *folder_path, const char *file_name, const size_t &buf
 	this->file_name = file_name;*/
 	this->buffer_size = buffer_size;
 
-	//this->logger = logger;
+	this->logger = logger;
 }
 
 void Dumper::write(const char *data){

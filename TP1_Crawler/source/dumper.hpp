@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <queue>
 #include <iostream>
+//#include "logger.hpp"
 
 class Dumper{
 
@@ -15,13 +16,14 @@ class Dumper{
 		size_t buffer_size;
 
 		FILE *file;
-		//std::vector<std::string> *buffer;
+		std::queue<std::string> buffer;
 		char file_path[200];
 
-	public:
-		std::queue<std::string> buffer;
+		void *logger;
 
-		Dumper(const char *folder_path, const char *file_name, const size_t &buffer_size);
+	public:
+
+		Dumper(const char *folder_path, const char *file_name, const size_t &buffer_size, void *logger);
 
 		~Dumper(){}
 
