@@ -18,7 +18,8 @@ class Logger{
 		int thread_id;
 
 		Dumper *dumper;
-		std::chrono::steady_clock::time_point start_time = std::chrono::steady_clock::now();
+		std::chrono::steady_clock::duration start_time;
+		//std::chrono::steady_clock::duration start_time = std::chrono::steady_clock::now().time_since_epoch();
 
 		size_t transaction_counter;
 
@@ -26,7 +27,7 @@ class Logger{
 
 	public:
 
-		Logger(int &thread_id, const char *folder_path, const char *file_name, const size_t &buffer_size);
+		Logger(int thread_id, const char *folder_path, const char *file_name, const size_t &buffer_size, std::chrono::steady_clock::duration start_time);
 
 		~Logger(){
 			delete dumper;
@@ -34,14 +35,14 @@ class Logger{
 
 		void close();
 
-		int getRelativeTime();
+		long long getRelativeTime();
 
 		/* Puts part of data to be writen on buffer */
 		size_t register_threadExecution_begin();
 		void register_threadExecution_end(size_t transaction_id);
 
-		size_t register_writeOnDisk_begin(char *agent);
-		void register_writeOnDisk_begin(size_t transaction_id, int quant_lines, size_t quant_bytes);
+		size_t register_writeOnDisk_begin(const char *agent);
+		void register_writeOnDisk_end(size_t transaction_id, int quant_lines);
 
 		size_t register_downloadPage_begin(const char *domain, const char *url);
 		void register_downloadPage_end(size_t transaction_id, size_t page_size);

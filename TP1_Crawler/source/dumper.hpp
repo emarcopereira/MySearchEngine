@@ -19,11 +19,11 @@ class Dumper{
 		std::queue<std::string> buffer;
 		char file_path[200];
 
-		void *logger;
+		//void *logger;
 
 	public:
 
-		Dumper(const char *folder_path, const char *file_name, const size_t &buffer_size, void *logger);
+		Dumper(const char *folder_path, const char *file_name, const size_t &buffer_size);
 
 		~Dumper(){}
 
