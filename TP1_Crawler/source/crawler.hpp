@@ -35,7 +35,6 @@ struct UrlsQueueItemCompare{
 typedef std::priority_queue<UrlsQueueItem, std::deque<UrlsQueueItem>, UrlsQueueItemCompare> UrlsQueue;
 
 /* Visited Urls Hash's Structures*/
-
 typedef std::unordered_map<std::string, size_t> VisitedUrlsHash;
 
 /* Domains Info Hash's Structures */
@@ -54,6 +53,14 @@ typedef struct{
 class Crawler{
 	
 	private:
+
+		/* Parameters */
+		char *pages_folder_path;
+		char *logs_folder_path;
+		char *stats_file_path;
+		int buffer_pages_size;
+		int buffer_iUrls_size;
+		int buffer_oUrls_size;
 
 		/* Domains Queue */
 		std::priority_queue<DomainsQueueItem, std::deque<DomainsQueueItem>, DomainsQueueItemCompare> domains_queue;
@@ -78,6 +85,7 @@ class Crawler{
 
 		void StopCrawling();
 
+		void ForceStopCrawling();
 };
 
 #endif
