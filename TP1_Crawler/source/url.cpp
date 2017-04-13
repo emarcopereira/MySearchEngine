@@ -11,10 +11,10 @@ const char* Url::getDomain(const char *url){
 	_ = strtok(clean_url, "/");
 	aux = strtok(NULL, "/");
 
-	if(strstr(aux, "www") != NULL){
+	/*if(strstr(aux, "www") != NULL){
 		_ = strtok(aux, ".");
 		aux = strtok(NULL, "/");
-	}
+	}*/
 
 	return aux;
 }
