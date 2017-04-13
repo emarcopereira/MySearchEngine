@@ -3,11 +3,15 @@
 
 using namespace std;
 
-Logger::Logger(int thread_id, const char *folder_path, const char *file_name, const size_t &buffer_size, chrono::steady_clock::duration start_time){
+Logger::Logger(int thread_id, const char *folder_path, const char *file_name, const size_t buffer_size, chrono::steady_clock::duration start_time){
 	this->start_time = start_time;
 	this->thread_id = thread_id;
 	this->dumper = new Dumper(folder_path, file_name, buffer_size);
 	this->transaction_counter = 0;
+}
+
+Logger::~Logger(){
+	delete dumper;
 }
 
 void Logger::close(){

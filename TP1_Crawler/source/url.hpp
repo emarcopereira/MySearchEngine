@@ -7,17 +7,15 @@
 class Url{
 
 	private:
-		CkSpider *spider;
+		CkSpider *ck_spider;
 
 	public:
 
-		Url(){
-			this->spider = new CkSpider();
+		Url(CkSpider *ck_spider){
+			this->ck_spider = ck_spider;
 		}
 
-		~Url(){
-			delete this->spider;
-		} 
+		~Url(){} 
 
 		/* Return canonized url */
 		const char* getCleanUrl(const char *url);

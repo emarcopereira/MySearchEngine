@@ -5,27 +5,26 @@
 #include <string>
 #include <cstdio>
 #include <queue>
-#include <iostream>
+#include <fstream>
 //#include "logger.hpp"
 
 class Dumper{
 
 	private:
-		/*char *folder_path;
-		char *file_name;*/
 		size_t buffer_size;
-
-		FILE *file;
-		std::queue<std::string> buffer;
+		size_t buffer_count;
 		char file_path[200];
+
+		std::filebuf file_buffer;
+    	std::ostream *output_stream;
 
 		//void *logger;
 
 	public:
 
-		Dumper(const char *folder_path, const char *file_name, const size_t &buffer_size);
+		Dumper(const char *folder_path, const char *file_name, const size_t buffer_size);
 
-		~Dumper(){}
+		~Dumper();
 
 		/* Puts piece of data to be wroten on buffer */
 		void write(const char *data);

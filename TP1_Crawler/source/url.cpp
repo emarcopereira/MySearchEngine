@@ -1,20 +1,22 @@
 #include "url.hpp"
 
 const char* Url::getCleanUrl(const char *url){
-	return this->spider->canonicalizeUrl(url);
+	return this->ck_spider->canonicalizeUrl(url);
 }
 
 const char* Url::getDomain(const char *url){
-	char *domain = const_cast<char*>(this->spider->getUrlDomain(url));
-	const char *clean_domain;
+	char *clean_url = const_cast<char*>(url);
+	char *aux, *_;
 
-	if(strstr(domain, "www") != NULL){
-		clean_domain = strtok(domain, ".");
-		clean_domain = strtok(NULL, "");
-		return clean_domain;
+	_ = strtok(clean_url, "/");
+	aux = strtok(NULL, "/");
+
+	if(strstr(aux, "www") != NULL){
+		_ = strtok(aux, ".");
+		aux = strtok(NULL, "/");
 	}
 
-	return domain;
+	return aux;
 }
 
 int Url::getNumberLevels(const char *url){

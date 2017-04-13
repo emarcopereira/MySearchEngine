@@ -17,7 +17,8 @@ int main(){
 		"http://www.ChilkatSoft.com/"
 	};
 
-	Url url;
+	CkSpider spider;
+	Url url(&spider);
 
 	for(int i=0; i<10; i++){
 		printf("\n\nURL: %s", urls[i]);

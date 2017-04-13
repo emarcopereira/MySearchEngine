@@ -27,11 +27,9 @@ class Logger{
 
 	public:
 
-		Logger(int thread_id, const char *folder_path, const char *file_name, const size_t &buffer_size, std::chrono::steady_clock::duration start_time);
+		Logger(int thread_id, const char *folder_path, const char *file_name, const size_t buffer_size, std::chrono::steady_clock::duration start_time);
 
-		~Logger(){
-			delete dumper;
-		}
+		~Logger();
 
 		void close();
 
