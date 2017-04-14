@@ -14,10 +14,14 @@ endif
 
 all: clean build
 
-build: test_url #test_logger #test_dumper #test_url
-	g++ $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/test_url.o $(LIB) -o test_exec
+build: test_spider #test_spider #test_logger #test_dumper #test_url
+	#g++ $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/test_url.o $(LIB) -o test_exec
 	#g++ $(OP) $(IOP) $(OBJ_DIR)/dumper.o $(OBJ_DIR)/test_dumper.o $(LIB) -o test_exec
 	#g++ $(OP) $(IOP) $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/test_logger.o $(LIB) -o test_exec
+	g++ $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/spider.o $(OBJ_DIR)/test_spider.o $(LIB) -o test_exec
+
+spider: url dumper logger
+	g++ $(OP) $(IOP) -c $(SRC_DIR)/spider.cpp -o $(OBJ_DIR)/spider.o
 
 logger: dumper
 	g++ $(OP) $(IOP) -c $(SRC_DIR)/logger.cpp -o $(OBJ_DIR)/logger.o
@@ -27,6 +31,9 @@ dumper:
 
 url: 
 	g++ $(OP) $(IOP) -c $(SRC_DIR)/url.cpp -o $(OBJ_DIR)/url.o
+
+test_spider: spider
+	g++ $(OP) $(IOP) -c test/test_spider.cpp -o $(OBJ_DIR)/test_spider.o
 
 test_logger: logger
 	g++ $(OP) $(IOP) -c test/test_logger.cpp -o $(OBJ_DIR)/test_logger.o

@@ -51,29 +51,25 @@ class Crawler{
 		char *pages_folder_path;
 		char *logs_folder_path;
 		char *stats_file_path;
+		char *backup_folder_path;
 		int buffer_pages_size;
 		int buffer_iUrls_size;
 		int buffer_oUrls_size;
+		int buffer_log_size;
 
-		/* Domain Index Table */
-		std::unordered_map<std::string, size_t> domains_index;
-		std::shared_mutex domains_index_mutex;
+		bool stop_command;
 
 		/* Domain Times Table */
-		std::unordered_map<std::string, size_t> domains_hash;
+		std::unordered_map<size_t, std::chrono::steady_clock::time_point> domains_times_hash;
 		std::shared_mutex domain_hash_mutex;
 
 		/* Urls Queues Array */
 		std::array<UrlLevelQueueCarrier, MAX_URL_LEVEL> urls_queues;
 		std::shared_mutex urls_queues_mutex;
 
-		/* Urls Hashes Array */
-		std::vector<UrlLevelHashCarrier, MAX_URL_LEVEL> urls_hashes;
-		std::shared_mutex urls_hashes_mutex;
-
 	public:
 
-		Crawler(char *pages_folder_path, char *logs_folder_path, char *stats_file_path, int buffer_pages_size, int buffer_iUrls_size, int buffer_oUrls_size);
+		Crawler(char *pages_folder_path, char *logs_folder_path, char *stats_file_path, int buffer_pages_size, int buffer_iUrls_size, int buffer_oUrls_size, int buffer_log_size);
 
 		~Crawler();
 
@@ -86,6 +82,10 @@ class Crawler{
 		void StopCrawling();
 
 		void ForceStopCrawling();
+
+		void DoBackup();
+
+		void LoadBackup();
 };
 
 #endif

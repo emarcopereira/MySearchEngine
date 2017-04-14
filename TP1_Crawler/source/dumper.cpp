@@ -7,7 +7,7 @@ Dumper::Dumper(const char *folder_path, const char *file_name, const size_t buff
 	/* Opening File */
 	sprintf(this->file_path, "%s/%s", folder_path, file_name);
 	if(this->file_buffer.open(this->file_path, ios::out) == NULL){
-		fprintf(stderr, "[Dumper] Error opening file '%s' !", this->file_path);
+		fprintf(stderr, "\n[Dumper] Error opening file '%s' !", this->file_path);
 		delete this;
 	}
 	else{
@@ -18,7 +18,10 @@ Dumper::Dumper(const char *folder_path, const char *file_name, const size_t buff
 }
 
 Dumper::~Dumper(){
-	delete this->output_stream;
+	this->close();
+	
+	if(this->output_stream != NULL)
+		delete this->output_stream;
 }
 
 void Dumper::write(const char *data){
@@ -27,7 +30,7 @@ void Dumper::write(const char *data){
 	/* Write on file when buffer is full */
 	if(this->buffer_count + data_str.size() > this->buffer_size){
 		this->output_stream->flush();
-		cout << "\nDump uma vez";
+		//cout << "\nDump uma vez";
 	}
 
 	(*this->output_stream) << data_str;
@@ -35,7 +38,7 @@ void Dumper::write(const char *data){
 }
 
 void Dumper::close(){
-	fprintf(stderr, "[Dumper] Closing Dumper of file '%s' !", this->file_path);
+	fprintf(stderr, "\n[Dumper] Closing Dumper of file '%s' !", this->file_path);
 
 	/* Dumping remaining data */ 
 	if(this->buffer_count >0)
