@@ -1,4 +1,4 @@
-OP=-L./chilkat/lib -O2 -std=c++11 -Wall -lpthread -lresolv
+OP=-L./chilkat/lib -O2 -std=c++17-lang -Wall -lpthread -lresolv
 IOP=-I/chilkat/include
 LIB=./chilkat/lib/libchilkat-9.5.0.so
 OBJ_DIR=./obj
@@ -14,11 +14,18 @@ endif
 
 all: clean build
 
-build: test_spider #test_spider #test_logger #test_dumper #test_url
+build: #test_spider #test_spider #test_logger #test_dumper #test_url
 	#g++ $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/test_url.o $(LIB) -o test_exec
 	#g++ $(OP) $(IOP) $(OBJ_DIR)/dumper.o $(OBJ_DIR)/test_dumper.o $(LIB) -o test_exec
 	#g++ $(OP) $(IOP) $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/test_logger.o $(LIB) -o test_exec
-	g++ $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/spider.o $(OBJ_DIR)/test_spider.o $(LIB) -o test_exec
+	#g++ $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/spider.o $(OBJ_DIR)/test_spider.o $(LIB) -o test_exec
+	g++ $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/spider.o $(OBJ_DIR)/crawler.o $(OBJ_DIR)/main.o $(LIB) -o test_exec
+
+main: crawler
+	g++ $(OP) $(IOP) -c $(SRC_DIR)/main.cpp -o $(OBJ_DIR)/main.o
+
+crawler: spider 
+	g++ $(OP) $(IOP) -c $(SRC_DIR)/crawler.cpp -o $(OBJ_DIR)/crawler.o
 
 spider: url dumper logger
 	g++ $(OP) $(IOP) -c $(SRC_DIR)/spider.cpp -o $(OBJ_DIR)/spider.o
