@@ -31,8 +31,6 @@ class Logger{
 
 		~Logger();
 
-		void close();
-
 		size_t getRelativeTime();
 
 		/* Puts part of data to be writen on buffer */
@@ -52,6 +50,8 @@ class Logger{
 
 		size_t register_manageCZ_begin();
 		void register_manageCZ_end(size_t transaction_id);
+
+		void register_simpleLog(const char *message);
 };
 
 #endif

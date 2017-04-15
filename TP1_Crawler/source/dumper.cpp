@@ -26,6 +26,7 @@ Dumper::~Dumper(){
 
 void Dumper::write(const char *data){
 	string data_str(data);
+	data_str.shrink_to_fit();
 	
 	/* Write on file when buffer is full */
 	if(this->buffer_count + data_str.size() > this->buffer_size){

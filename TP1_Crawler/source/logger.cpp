@@ -11,14 +11,8 @@ Logger::Logger(int thread_id, const char *folder_path, const char *file_name, co
 }
 
 Logger::~Logger(){
-	this->close();
-	
 	if(this->dumper != NULL)
 		delete this->dumper;
-}
-
-void Logger::close(){
-	this->dumper->close();
 }
 
 size_t Logger::getRelativeTime(){
@@ -111,5 +105,13 @@ void Logger::register_manageCZ_end(size_t transaction_id){
 	size_t time = this->getRelativeTime();
 	/* Format: [time] [transaction_id] manage_cz end*/
 	sprintf(this->message, "%lu %lu manage_cz end\n", time, transaction_id);
+	this->dumper->write(this->message);
+}
+
+/* TYPE: simple_log */
+void Logger::register_simpleLog(const char *message){
+	size_t time = this->getRelativeTime();
+	/* Format: [time] [transaction_id] simple_log [message]*/
+	sprintf(this->message, "%lu %lu simple_log %s\n", time, this->transaction_counter, message);
 	this->dumper->write(this->message);
 }
