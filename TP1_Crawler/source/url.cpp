@@ -10,9 +10,9 @@ string Url::getCleanUrl(const char *url){
 string Url::getDomain(string &url){
 	string copy(url.c_str());
 	char *clean_url = const_cast<char *>(copy.c_str());
-	char *aux, *_;
+	char *aux;
 
-	_ = strtok(clean_url, "/");
+	strtok(clean_url, "/");
 	aux = strtok(NULL, "/");
 
 	/*if(strstr(aux, "www") != NULL){
@@ -30,8 +30,12 @@ int Url::getNumberLevels(const string &url){
 	int size = url.size();
 	const char *c_url = url.c_str();
 
-	/* Counts '.' until first '/' be reached */
 	int index = 0;
+	/* Pass 'http://' */
+	index = strstr(c_url, "//") - c_url + 2;
+	//fprintf(stderr, "\n%c\n", c_url[index]);
+
+	/* Counts '.' until first '/' be reached */
 	for(; c_url[index] != '/' && index < size; index++)
 		if(c_url[index] == '.') n_levels++;
 
@@ -41,6 +45,9 @@ int Url::getNumberLevels(const string &url){
 	/* Counts '/' until the end of url */
 	for(int i=index; i < size; i++)
 		if(c_url[i] == '/') n_levels++;
+
+	/* In case of the las level does not ends in '/' */
+	if(c_url[size-1] != '/') n_levels++;
 
 	return n_levels;
 }

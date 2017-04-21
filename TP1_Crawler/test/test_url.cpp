@@ -6,7 +6,7 @@
 using namespace std;
 
 int main(){
-	char urls[11][100] = { 
+	char urls[14][100] = { 
 		"http://www.decolar.com",
 		"http://www.tripadvisor.com.br",
 		"http://www.latam.com",
@@ -17,13 +17,16 @@ int main(){
 		"http://www.chilkatsoft.com:80/purchase2.asp",
 		"https://www.paypal.com:443/",
 		"http://www.ChilkatSoft.com/",
-		"http://www.ChilkatSoft.com/pt-br"
+		"http://www.ChilkatSoft.com/pt-br",
+		"http://www.globo.com",
+		"http://ufmg.br",
+		"http://dcc.ufmg.br"
 	};
 
 	CkSpider spider;
 	Url url(&spider);
 
-	for(int i=0; i<11; i++){
+	for(int i=0; i<14; i++){
 		printf("\n\nURL: %s", urls[i]);
 
 		string canonized_url = url.getCleanUrl(urls[i]);
@@ -32,7 +35,7 @@ int main(){
 		printf("\nisBrDomain: %s", url.isBrDomain(urls[i])? "true" : "false");
 		string domain = url.getDomain(canonized_url);
 		printf("\ngetDomain: %s", domain.c_str());
-		printf("\ngetHashDomain: %lu", url.getHashDomain(domain));
+		printf("\ngetHashDomain: %lu", url.getStringHash(domain));
 
 		printf("\ngetNumberLevels: %d", url.getNumberLevels(canonized_url));
 	}

@@ -7,10 +7,6 @@
 #include <chrono>
 #include "dumper.hpp"
 
-typedef int MsgType;
-typedef int MsgState;
-
-
 class Logger{
 
 	private:
@@ -45,13 +41,21 @@ class Logger{
 
 		//void register_downloadBlocked(const char *domain, int remain_time, const char *url);
 
+		void register_simpleLog(const char *message);
+
+		void register_linkExtraction(int n_inbounds, int n_outbounds);
+
+		void register_moveUrls(int n_urls);
+
+		void register_addUrls(int n_urls);
+
+		void register_getUrls(int n_urls, int last_level);
+
 		size_t register_waitCZ_begin();
 		void register_waitCZ_end(size_t transaction_id);
 
 		size_t register_manageCZ_begin();
 		void register_manageCZ_end(size_t transaction_id);
-
-		void register_simpleLog(const char *message);
 };
 
 #endif

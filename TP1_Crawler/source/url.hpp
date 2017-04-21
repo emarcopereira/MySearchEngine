@@ -30,8 +30,8 @@ class Url{
 		std::string getDomain(std::string &url);
 
 		/* Returns domain's hash value */
-		inline size_t getHashDomain(std::string &domain){
-			return std::hash<std::string>{}(domain);
+		inline size_t getStringHash(std::string &str){
+			return std::hash<std::string>{}(str);
 		}
 
 		/* Counts the number of levels of a url [canonize first] */
