@@ -16,11 +16,11 @@ endif
 all: clean build
 
 build: test_crawler #test_spider #test_monitor #test_logger #test_dumper #test_url
-	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/test_url.o $(LIB) -o test_exec
-	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/dumper.o $(OBJ_DIR)/test_dumper.o $(LIB) -o test_exec
-	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/monitor.o $(OBJ_DIR)/test_monitor.o $(LIB) -o test_exec
-	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/test_logger.o $(LIB) -o test_exec
-	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/spider.o $(OBJ_DIR)/test_spider.o $(LIB) -o test_exec
+	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/test_url.o $(LIB) $(OP) -o test_exec
+	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/dumper.o $(OBJ_DIR)/test_dumper.o $(LIB) $(OP) -o test_exec
+	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/monitor.o $(OBJ_DIR)/test_monitor.o $(LIB) $(OP) -o test_exec
+	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/test_logger.o $(LIB) $(OP) -o test_exec
+	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/spider.o $(OBJ_DIR)/test_spider.o $(LIB) $(OP) -o test_exec
 	$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/spider.o $(OBJ_DIR)/monitor.o $(OBJ_DIR)/crawler.o $(OBJ_DIR)/test_crawler.o $(LIB) $(OP) -o test_exec
 
 main: crawler
