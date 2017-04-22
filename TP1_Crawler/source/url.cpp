@@ -3,10 +3,6 @@
 
 using namespace std;
 
-string Url::getCleanUrl(const char *url){
-	return string(this->ck_spider->canonicalizeUrl(url));
-}
-
 string Url::getDomain(string &url){
 	string copy(url.c_str());
 	char *clean_url = const_cast<char *>(copy.c_str());
@@ -22,8 +18,6 @@ string Url::getDomain(string &url){
 
 	return string(aux);
 }
-
-
 
 int Url::getNumberLevels(const string &url){
 	int n_levels = 0;

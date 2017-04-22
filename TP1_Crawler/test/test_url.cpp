@@ -6,7 +6,7 @@
 using namespace std;
 
 int main(){
-	char urls[14][100] = { 
+	char urls[15][100] = { 
 		"http://www.decolar.com",
 		"http://www.tripadvisor.com.br",
 		"http://www.latam.com",
@@ -20,24 +20,27 @@ int main(){
 		"http://www.ChilkatSoft.com/pt-br",
 		"http://www.globo.com",
 		"http://ufmg.br",
-		"http://dcc.ufmg.br"
+		"http://dcc.ufmg.br",
+		"http://alteracaocadastral@pontosmultiplus.com.br"
 	};
 
 	CkSpider spider;
 	Url url(&spider);
 
-	for(int i=0; i<14; i++){
-		printf("\n\nURL: %s", urls[i]);
+	for(int i=0; i<15; i++){
+		fprintf(stderr, "\n\nURL: %s", urls[i]);
 
 		string canonized_url = url.getCleanUrl(urls[i]);
-		printf("\ngetCleanUrl: %s", canonized_url.c_str());
+		fprintf(stderr, "\ngetCleanUrl: %s", canonized_url.c_str());
 
-		printf("\nisBrDomain: %s", url.isBrDomain(urls[i])? "true" : "false");
+		fprintf(stderr, "\nisBrDomain: %s", url.isBrDomain(urls[i])? "true" : "false");
+		fprintf(stderr, "\nisEmail: %s", url.isEmail(urls[i])? "true" : "false");
 		string domain = url.getDomain(canonized_url);
-		printf("\ngetDomain: %s", domain.c_str());
-		printf("\ngetHashDomain: %lu", url.getStringHash(domain));
+		fprintf(stderr, "\ngetDomain: %s", domain.c_str());
+		fprintf(stderr, "\ngetHashDomain: %lu", url.getStringHash(domain));
+		fprintf(stderr, "\ngetHashUrl: %lu", url.getStringHash(canonized_url));
 
-		printf("\ngetNumberLevels: %d", url.getNumberLevels(canonized_url));
+		fprintf(stderr, "\ngetNumberLevels: %d", url.getNumberLevels(canonized_url));
 	}
 
 	return 0;

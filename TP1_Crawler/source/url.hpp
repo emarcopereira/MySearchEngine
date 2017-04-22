@@ -24,7 +24,9 @@ class Url{
 		~Url(){} 
 
 		/* Return canonized url */
-		std::string getCleanUrl(const char *url);
+		inline std::string getCleanUrl(const char *url){
+			return std::string(this->ck_spider->canonicalizeUrl(url));
+		}
 
 		/* Return url domain without 'www.' [canonize first] */
 		std::string getDomain(std::string &url);
@@ -42,6 +44,10 @@ class Url{
 			return std::regex_match(std::string(url), expression);
 		}
 
+		/* Verifies if url is from br domain */ 
+		inline bool isEmail(const char *url){
+			return (strstr(url, "@") != NULL);
+		}
 };
 
 #endif
