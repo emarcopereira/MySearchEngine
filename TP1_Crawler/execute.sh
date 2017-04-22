@@ -45,14 +45,14 @@ mkdir -p $backup_folder
 # 		-buo 100 \ 				#BUFFER_URLS_OUT_SIZE(Qtd)
 # 		-bl 50000 \ 			#BUFFER_LOG_SIZE(Bytes)
 # 		-m complex \ 			#EXECUTION_MODE
-./main -s input/seeds.txt \
+valgrind ./main -s input/seeds.txt \
 		-p $pages_folder \
 		-l $log_folder \
 		-b $backup_folder \
 		-s $stats_file \
 		-n 80 \
 		-bp 50000000 \
-		-bui 500 \
-		-buo 100 \
-		-bl 50000 \
+		-bui 100 \
+		-buo 10 \
+		-bl 500 \
 		-m complex 

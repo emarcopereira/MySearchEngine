@@ -23,30 +23,27 @@ class Url{
 
 		~Url(){} 
 
+		bool getCleanUrl(const char *url, CkString &outStr);
+
 		/* Return canonized url */
-		inline std::string getCleanUrl(const char *url){
-			return std::string(this->ck_spider->canonicalizeUrl(url));
+		inline bool isDynamic(const char *url){
+			return (strpbrk(url, "@{}") != NULL);
 		}
 
-		/* Return url domain without 'www.' [canonize first] */
-		std::string getDomain(std::string &url);
+		/* Return url domain without 'www.' */
+		char* getDomain(const char *url);
 
 		/* Returns domain's hash value */
 		inline size_t getStringHash(std::string &str){
 			return std::hash<std::string>{}(str);
 		}
 
-		/* Counts the number of levels of a url [canonize first] */
-		int getNumberLevels(const std::string &url);
+		/* Counts the number of levels of a url */
+		int getNumberLevels(std::string &url);
 
 		/* Verifies if url is from br domain */ 
 		inline bool isBrDomain(const char *url){
 			return std::regex_match(std::string(url), expression);
-		}
-
-		/* Verifies if url is from br domain */ 
-		inline bool isEmail(const char *url){
-			return (strstr(url, "@") != NULL);
 		}
 };
 

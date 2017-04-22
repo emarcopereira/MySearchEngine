@@ -25,13 +25,14 @@ Dumper::~Dumper(){
 }
 
 void Dumper::write(const char *data){
-	string data_str(data);
+	string data_str = data;
 	data_str.shrink_to_fit();
 	
 	/* Write on file when buffer is full */
 	if(this->buffer_count + data_str.size() > this->buffer_size){
 		this->output_stream->flush();
 		//cout << "\nDump uma vez";
+		this->buffer_count = 0;
 	}
 
 	(*this->output_stream) << data_str;
@@ -42,7 +43,7 @@ void Dumper::close(){
 	fprintf(stderr, "\n[Dumper] Closing Dumper of file '%s' !", this->file_path);
 
 	/* Dumping remaining data */ 
-	if(this->buffer_count >0)
+	if(this->buffer_count > 0)
 		this->output_stream->flush();
 
 	/* Closing file */

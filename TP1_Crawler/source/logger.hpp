@@ -36,7 +36,7 @@ class Logger{
 		size_t register_writeOnDisk_begin(const char *agent);
 		void register_writeOnDisk_end(size_t transaction_id, int quant_lines);
 
-		size_t register_downloadPage_begin(const char *domain, size_t domain_id, const char *url, int n_levels);
+		size_t register_downloadPage_begin(const char *domain, size_t domain_id, const char *url, size_t url_id, int n_levels);
 		void register_downloadPage_end(size_t transaction_id, bool sucess, size_t page_size);
 
 		//void register_downloadBlocked(const char *domain, int remain_time, const char *url);

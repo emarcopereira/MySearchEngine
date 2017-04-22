@@ -26,21 +26,23 @@ int main(){
 
 	CkSpider spider;
 	Url url(&spider);
+	CkString ckstr;
 
 	for(int i=0; i<15; i++){
 		fprintf(stderr, "\n\nURL: %s", urls[i]);
 
-		string canonized_url = url.getCleanUrl(urls[i]);
-		fprintf(stderr, "\ngetCleanUrl: %s", canonized_url.c_str());
-
+		bool sucess = url.getCleanUrl(urls[i], ckstr);
+		string canonized_url = ckstr.getString();
+		canonized_url.shrink_to_fit();
+		fprintf(stderr, "\ngetCleanUrl(%d): %s", sucess, canonized_url.c_str());
 		fprintf(stderr, "\nisBrDomain: %s", url.isBrDomain(urls[i])? "true" : "false");
-		fprintf(stderr, "\nisEmail: %s", url.isEmail(urls[i])? "true" : "false");
-		string domain = url.getDomain(canonized_url);
+		fprintf(stderr, "\ngetNumberLevels: %d", url.getNumberLevels(canonized_url));
+
+		string domain = url.getDomain(ckstr.getString());
+		domain.shrink_to_fit();
 		fprintf(stderr, "\ngetDomain: %s", domain.c_str());
 		fprintf(stderr, "\ngetHashDomain: %lu", url.getStringHash(domain));
 		fprintf(stderr, "\ngetHashUrl: %lu", url.getStringHash(canonized_url));
-
-		fprintf(stderr, "\ngetNumberLevels: %d", url.getNumberLevels(canonized_url));
 	}
 
 	return 0;

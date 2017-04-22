@@ -52,11 +52,11 @@ void Logger::register_writeOnDisk_end(size_t transaction_id, int quant_lines){
 }
 
 /* TYPE: download_page */
-size_t Logger::register_downloadPage_begin(const char *domain, size_t domain_id, const char *url, int n_levels){
+size_t Logger::register_downloadPage_begin(const char *domain, size_t domain_id, const char *url, size_t url_id, int n_levels){
 	size_t time = this->getRelativeTime();
 	this->transaction_counter++;
 	/* Format: [time] [transaction_id] download_page begin [domain] [domain_id] [url] [url_n_levels] */
-	sprintf(this->message, "%lu %lu download_page begin %s %lu %s %d\n", time, this->transaction_counter, domain, domain_id, url, n_levels);
+	sprintf(this->message, "%lu %lu download_page begin %s %lu %s %lu %d\n", time, this->transaction_counter, domain, domain_id, url, url_id, n_levels);
 	this->dumper->write(this->message);
 	return this->transaction_counter;
 }
