@@ -6,7 +6,7 @@
 #include <cstdio>
 #include <queue>
 #include <fstream>
-//#include "logger.hpp"
+#include "../chilkat/include/CkSpider.h"
 
 class Dumper{
 
@@ -27,7 +27,9 @@ class Dumper{
 		~Dumper();
 
 		/* Puts piece of data to be wroten on buffer */
-		void write(const char *data);
+		void write(CkString &data);
+
+		void write(std::string &data);
 
 		/* Closes file */
 		void close();

@@ -24,19 +24,30 @@ Dumper::~Dumper(){
 		delete this->output_stream;
 }
 
-void Dumper::write(const char *data){
-	string data_str = data;
-	data_str.shrink_to_fit();
-	
+void Dumper::write(CkString &data){
+
 	/* Write on file when buffer is full */
-	if(this->buffer_count + data_str.size() > this->buffer_size){
+	if(this->buffer_count + data.getNumChars() > this->buffer_size){
 		this->output_stream->flush();
 		//cout << "\nDump uma vez";
 		this->buffer_count = 0;
 	}
 
-	(*this->output_stream) << data_str;
-	this->buffer_count += data_str.size();
+	(*this->output_stream) << data.getString();
+	this->buffer_count += data.getNumChars();
+}
+
+void Dumper::write(string &data){
+
+	/* Write on file when buffer is full */
+	if(this->buffer_count + data.size() > this->buffer_size){
+		this->output_stream->flush();
+		//cout << "\nDump uma vez";
+		this->buffer_count = 0;
+	}
+
+	(*this->output_stream) << data.c_str();
+	this->buffer_count += data.size();
 }
 
 void Dumper::close(){

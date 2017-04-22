@@ -51,8 +51,8 @@ valgrind ./main -s input/seeds.txt \
 		-b $backup_folder \
 		-s $stats_file \
 		-n 80 \
-		-bp 50000000 \
-		-bui 100 \
-		-buo 10 \
+		-bp 5000 \
+		-bui 50 \
+		-buo 1 \
 		-bl 500 \
 		-m complex 
