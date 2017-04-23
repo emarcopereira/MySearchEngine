@@ -111,6 +111,7 @@ void Logger::register_manageCZ_end(size_t transaction_id){
 /* TYPE: simple_log */
 void Logger::register_simpleLog(const char *message){
 	size_t time = this->getRelativeTime();
+	this->transaction_counter++;
 	/* Format: [time] [transaction_id] simple_log [message]*/
 	sprintf(this->message, "%lu %lu simple_log %s\n", time, this->transaction_counter, message);
 	this->dumper->write(this->message);
@@ -119,6 +120,7 @@ void Logger::register_simpleLog(const char *message){
 /* TYPE: link_extraction */
 void Logger::register_linkExtraction(int n_inbounds, int n_outbounds){
 	size_t time = this->getRelativeTime();
+	this->transaction_counter++;
 	/* Format: [time] [transaction_id] link_extraction [n_inbounds] [n_outbounds] [total] */
 	sprintf(this->message, "%lu %lu link_extraction %d %d %d\n", time, this->transaction_counter, n_inbounds, n_outbounds, n_inbounds+n_outbounds);
 	this->dumper->write(this->message);
@@ -127,6 +129,7 @@ void Logger::register_linkExtraction(int n_inbounds, int n_outbounds){
 /* TYPE: move_urls */
 void Logger::register_moveUrls(int n_urls){
 	size_t time = this->getRelativeTime();
+	this->transaction_counter++;
 	/* Format: [time] [transaction_id] move_urls [n_urls] */
 	sprintf(this->message, "%lu %lu move_urls %d\n", time, this->transaction_counter, n_urls);
 	this->dumper->write(this->message);
@@ -135,6 +138,7 @@ void Logger::register_moveUrls(int n_urls){
 /* TYPE: add_urls */
 void Logger::register_addUrls(int n_urls){
 	size_t time = this->getRelativeTime();
+	this->transaction_counter++;
 	/* Format: [time] [transaction_id] add_urls [n_urls] */
 	sprintf(this->message, "%lu %lu add_urls %d\n", time, this->transaction_counter, n_urls);
 	this->dumper->write(this->message);
@@ -143,6 +147,7 @@ void Logger::register_addUrls(int n_urls){
 /* TYPE: get_urls */
 void Logger::register_getUrls(int n_urls, int last_level){
 	size_t time = this->getRelativeTime();
+	this->transaction_counter++;
 	/* Format: [time] [transaction_id] get_urls [n_urls] */
 	sprintf(this->message, "%lu %lu get_urls %d %d\n", time, this->transaction_counter, n_urls, last_level);
 	this->dumper->write(this->message);
