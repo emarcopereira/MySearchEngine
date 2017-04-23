@@ -15,8 +15,9 @@ class Dumper{
 		size_t buffer_count;
 		char file_path[200];
 
-		std::filebuf file_buffer;
-    	std::ostream *output_stream;
+		/*std::filebuf file_buffer;
+    	std::ostream *output_stream;*/
+    	FILE *dumper_file;
 
 		//void *logger;
 
@@ -27,9 +28,11 @@ class Dumper{
 		~Dumper();
 
 		/* Puts piece of data to be wroten on buffer */
-		void write(CkString &data);
+		//void write(CkString &data);
 
-		void write(std::string &data);
+		inline void write(const char *data){
+			fprintf(this->dumper_file, "%s", data);
+		}
 
 		/* Closes file */
 		void close();
