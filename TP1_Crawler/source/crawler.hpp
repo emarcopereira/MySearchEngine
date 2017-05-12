@@ -26,17 +26,17 @@ class UrlLevelCarrier{
 
 	public:
 		std::deque<UrlCarrier> *url_queue;
-		std::shared_mutex *url_queue_mutex;
 		std::unordered_map<size_t, bool> *url_hash;
-		std::shared_mutex *url_hash_mutex;
+		std::shared_mutex *url_level_mutex;
 
 		UrlLevelCarrier(){
 			url_queue = new std::deque<UrlCarrier>();
 			url_hash = new std::unordered_map<size_t, bool>();
-			url_queue_mutex = new std::shared_mutex();
-			url_hash_mutex = new std::shared_mutex();
+			url_level_mutex = new std::shared_mutex();
 		}
-		
+		/*UrlLevelCarrier(const &UrlLevelCarrier ul) : 
+			url_queue(ul.url_queue), url_hash(ul.url_hash), url_level_mutex(ul.url_level_mutex){
+		}*/
 		~UrlLevelCarrier(){}
 };
 
