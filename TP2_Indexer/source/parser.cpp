@@ -37,7 +37,7 @@ UnicodeString TRANSLITERATION_RULES(
     ":: any-NFKC;"									/* Converts to Compatibility Composed Normalization */
     );
 
-vector<string> Parser::getTerms(string &html, StopWordsTable &stop_words) const{
+queue<string> Parser::getTerms(const string &html, StopWordsTable *stop_words) const{
 	/* Cleaning Html Text */
 	GumboOutput *output = gumbo_parse(html.c_str());
 	string text = this->getCleanText(output->root);
@@ -59,19 +59,18 @@ vector<string> Parser::getTerms(string &html, StopWordsTable &stop_words) const{
   	//fprintf(stderr, "FORMATED:%s\n", result.c_str());
 
 	/* Tokenizing Html Text */
-	vector<string> terms;
+	queue<string> terms;
 	string term;
 	char *token = strtok(const_cast<char *>(result.c_str()), " \n"); 
 	while(token != NULL){
 		string term = token;
 		if(term.size() != 0){
-    		if(not stop_words.constains(term))
-    			terms.push_back(term);
+    		if(not stop_words->constains(term))
+    			terms.push(term);
     	}
 
     	token = strtok(NULL, " \n"); 
 	}
-
-	terms.shrink_to_fit();
+  
 	return terms;
 }

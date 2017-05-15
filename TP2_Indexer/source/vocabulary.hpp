@@ -11,20 +11,35 @@ class Vocabulary{
 	private:
 
 		std::unordered_map<std::string, int> term_index;
-
-		size_t size;
+		size_t occupied_space;
 
 	public:
 
-		Vocabulary(){ }
-
-		inline bool addTerm(std::string &term){
-			return term_index.emplace(term, term_index.size()).second;
+		inline Vocabulary(){
+			occupied_space = 0;
 		}
 
-		inline int getSize(){ return this->size; }
+		inline int getSize(){
+			return term_index.size();
+		 }
 
-		void write(FILE *out_file);
+		inline size_t getOccupiedSpace(){
+			return occupied_space;
+		}
+
+		int addTerm(std::string &term);
+
+		inline int getTermId(std::string &term){
+			return term_index[term];
+		}
+
+		void save(FILE *out_file);
+
+		void load(FILE *vocabulary_file);
+
+		inline void clear(){
+			term_index.clear(); occupied_space = 0;
+		}
 
 		/*if(vocabulary.addTerm(term)){
 			working_memory -= term.size();

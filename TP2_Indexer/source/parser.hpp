@@ -2,7 +2,7 @@
 #define _parser_hpp
 
 #include <string>
-#include <vector>
+#include <queue>
 
 #include "vocabulary.hpp"
 #include "stop_words_table.hpp"
@@ -22,7 +22,7 @@ class Parser{
 
 		Parser();
 
-		std::vector<std::string> getTerms(std::string &html, StopWordsTable &stop_words) const;
+		std::queue<std::string> getTerms(const std::string &html, StopWordsTable *stop_words) const;
 
 };
 

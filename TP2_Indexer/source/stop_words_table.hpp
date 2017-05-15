@@ -8,13 +8,18 @@ class StopWordsTable{
 	
 	private:
 		std::unordered_map<std::string, bool> stop_words;
-
-	public:
-		StopWordsTable(){}
+		size_t occupied_space;
 
 		inline void add(std::string &word){
-			stop_words.emplace(word, true);
+			stop_words.emplace(word, true); occupied_space += word.size() + 1;
 		}
+
+	public:
+		inline StopWordsTable(){
+			occupied_space = 0;
+		}
+
+		void load(FILE *stop_words_file);
 
 		inline bool constains(std::string &word){
 			return (stop_words.count(word) > 0);
@@ -22,6 +27,10 @@ class StopWordsTable{
 
 		inline size_t getSize(){
 			return stop_words.size();
+		}
+
+		inline size_t getOccupiedSpace(){
+			return occupied_space;
 		}
 };
 

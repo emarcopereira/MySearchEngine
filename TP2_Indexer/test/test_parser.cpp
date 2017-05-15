@@ -39,7 +39,7 @@ int main(){
 	Parser parser;
 
 	FILE *sw_file = fopen("input/br_en_stopwords.txt", "r");
-	Indexer indexer(sw_file);
+	//Indexer indexer(sw_file);
 
 	//fprintf(stderr, "STRING: %s\n", str.c_str());
 
@@ -49,15 +49,17 @@ int main(){
 
 	//fprintf(stderr, "STRING: %s\n", text.c_str());
 
-	const vector<string> &terms = parser.getTerms(text, indexer.stop_words_table);
+	/*const queue<string> &terms = parser.getTerms(text, indexer.stop_words_table);
 
 	FILE *out_file = fopen("test/out.txt", "w");
-	for(string term : terms)
-		fprintf(out_file, "%s\n", term.c_str());
+	int size = terms.size();
+	while(size--){
+		fprintf(out_file, "%s\n", terms.front().c_str());
+	}
 	fclose(out_file);
 
 	for(auto item : indexer.stop_words_table.stop_words)
-		fprintf(stderr, "%s\n", item.first.c_str());
+		fprintf(stderr, "%s\n", item.first.c_str());*/
 
 	fclose(sw_file);
 
