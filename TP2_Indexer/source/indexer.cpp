@@ -233,7 +233,7 @@ void Indexer::intercalateRuns(vector<shared_ptr<RunReader>> &in_run_readers, Run
 		interPQ.pop();
 
 		/* Writes triple */
-		out_run_writer.write(value1); out_run_writer.write(value2); out_run_writer.write(value3);
+		out_run_writer.write(value1); out_run_writer.write(value2); out_run_writer.write(value3); out_run_writer.file << '\n';
 		/* Reads new triple */
 		run_reader_ptr->read(value1); run_reader_ptr->read(value2); run_reader_ptr->read(value3);
 		in_run_counters[run_index]--;

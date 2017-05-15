@@ -59,14 +59,14 @@ public:
 };
 
 class RunWriter{
-
-	private:
+public:
+	//private:
 		std::ofstream file;
 		std::filebuf *file_buffer;
 		std::string file_path;
 		size_t space_int;
 
-	public:
+	//public:
 		RunWriter(){
 			 file_buffer = file.rdbuf();
 			 space_int = sizeof(int);
@@ -83,13 +83,13 @@ class RunWriter{
 		}
 
 		inline void write(int &value){
-			file.write(reinterpret_cast<char*>(&value), space_int);
-			//file << value << ' ';
+			//file.write(reinterpret_cast<char*>(&value), space_int);
+			file << value << ' ';
 		}
 
 		inline void write(TriplesPQ::size_type value){
-			file.write(reinterpret_cast<char*>(&value), sizeof(value));
-			//file << value << ' ';
+			//file.write(reinterpret_cast<char*>(&value), sizeof(value));
+			file << value << ' ';
 		}
 
 		inline void dump(){
