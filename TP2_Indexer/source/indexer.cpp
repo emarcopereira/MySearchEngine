@@ -6,6 +6,9 @@
 #include <cstdio>
 
 #include <unordered_map>
+#include <vector>
+
+#include <cmath>
 
 using namespace std;
 
@@ -90,6 +93,7 @@ void Indexer::composeRuns(std::queue<std::string> &htmls_files_list){
 		this->logger->file <<"\t[Composition_Memory: " << composition_memory << " Limit: " << this->getWorkingMemory() << "]\n";
 
 		/* Dumping existent triples */
+		run_writer.write(ordered_triples.size());
 		while(!ordered_triples.empty()){
 			tie(value1, value2, value3) = ordered_triples.top();
 			run_writer.write(value1); run_writer.write(value2); run_writer.write(value3); //run_writer.file << "\n";
@@ -134,6 +138,7 @@ void Indexer::composeTriples(queue<string> &document_terms, int &document_id, Tr
 
 			/* Dumping existent triples */
 			int value1, value2, value3;
+			run_writer.write(ordered_triples.size());
 			while(!ordered_triples.empty()){
 				tie(value1, value2, value3) = ordered_triples.top();
 				run_writer.write(value1); run_writer.write(value2); run_writer.write(value3);
@@ -154,5 +159,86 @@ void Indexer::composeTriples(queue<string> &document_terms, int &document_id, Tr
 }
 
 void Indexer::mergeRuns(int k){
-	
+	int total_intercalations = 0;
+	int total_levels = 0;
+
+	while(this->runs_filenames.size() > 1){
+		int n_runs_level = this->runs_filenames.size();
+		int n_intercalations = ceil(float(n_runs_level)/float(k));
+
+		/* Execute current level of intercalations (tree) */
+		queue<string> intermediate_runs_filenames;
+		for(int inter = 0; inter < n_intercalations; inter++){
+			/* Opening New Intermediate Run */
+			RunWriter run_writer;
+			string run_filename = runs_folder_path + string("/run_int_") + to_string(this->runs_counter++);
+			run_writer.open(run_filename);
+			intermediate_runs_filenames.push(run_filename);
+
+			/* Opening Runs to be Intercalated */
+			vector<shared_ptr<RunReader>> run_readers;
+			for(int i = 0; (i < k) && (this->runs_filenames.size() > 0); i++){
+				RunReader *run_reader = new RunReader();
+				run_reader->open(this->runs_filenames.front());
+				this->runs_filenames.pop();
+				run_readers.push_back(shared_ptr<RunReader>(run_reader));
+			}
+
+			//intercalate
+
+			run_writer.close();
+		}
+		this->runs_filenames = intermediate_runs_filenames;	
+
+		total_intercalations += n_intercalations;
+		total_levels++;
+	}
+}
+
+typedef pair<Triple, int> IntercalationPQItem;
+bool compare(IntercalationPQItem &pqi1, IntercalationPQItem &pqi2){ return pqi1.first > pqi2.first; }
+typedef priority_queue<IntercalationPQItem, deque<IntercalationPQItem>, decltype(&compare)> IntercalationPQ;
+void Indexer::intercalateRuns(vector<shared_ptr<RunReader>> &in_run_readers, RunWriter &out_run_writer){
+	IntercalationPQ interPQ;
+	int value1, value2, value3;
+	shared_ptr<RunReader> run_reader_ptr;
+	int n_in_runs = in_run_readers.size();
+
+	vector<size_t> in_run_counters(n_in_runs, 0);
+	in_run_counters.shrink_to_fit();
+
+	/* Inserting First Triples */
+	TriplesPQ::size_type n_tuples;
+	size_t total_tuples = 0;
+	for(int i=0; i<n_in_runs; i++){
+		run_reader_ptr = in_run_readers[i];
+
+		run_reader_ptr->read(n_tuples);
+		in_run_counters[i] = n_tuples;
+		total_tuples += n_tuples;
+
+		/* Reads triple */
+		run_reader_ptr->read(value1); run_reader_ptr->read(value2); run_reader_ptr->read(value3);
+		in_run_counters[i]--;
+		/* Adds triple to priority queue */
+		if(in_run_counters[i] > 0)
+			interPQ.push( make_pair( make_tuple(value1, value2, value3), i) );
+	}
+
+	/* Intercalating */
+	int run_index;
+	while(!interPQ.empty()){
+		run_index = interPQ.top().second;
+		tie(value1, value2, value3) = interPQ.top().first;
+		interPQ.pop();
+
+		/* Writes triple */
+		out_run_writer.write(value1); out_run_writer.write(value2); out_run_writer.write(value3);
+		/* Reads new triple */
+		run_reader_ptr->read(value1); run_reader_ptr->read(value2); run_reader_ptr->read(value3);
+		in_run_counters[run_index]--;
+		/* Adds triple to priority queue */
+		if(in_run_counters[run_index] > 0)
+			interPQ.push( make_pair( make_tuple(value1, value2, value3), run_index) );
+	}
 }

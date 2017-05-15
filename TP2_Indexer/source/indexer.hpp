@@ -5,11 +5,13 @@
 #include <fstream>
 
 #include <queue>
+#include <deque>
 #include <string>
 #include <vector>
 
 #include <tuple>
 #include <functional>
+#include <memory>
 
 #include "stop_words_table.hpp"
 #include "vocabulary.hpp"
@@ -22,6 +24,7 @@ typedef std::priority_queue<Triple, std::deque<Triple>, std::greater<Triple>> Tr
 typedef std::priority_queue<Quadruple, std::deque<Quadruple>, std::less<Quadruple>()> QuadruplesPQ;*/
 
 class RunWriter;
+class RunReader;
 
 class Indexer{
 public:
@@ -38,6 +41,8 @@ public:
 
 		void composeTriples(std::queue<std::string> &document_terms, int &document_id, TriplesPQ &ordered_triples, 
 							RunWriter &run_writer, size_t &composition_memory);
+
+		void intercalateRuns(std::vector<std::shared_ptr<RunReader>> &in_run_readers, RunWriter &out_run_writer);
 
 	//public:
 		Indexer(StopWordsTable *stop_words_table, Vocabulary *vocabulary, Logger *logger, size_t memory_limit, char *runs_folder_path);
@@ -59,10 +64,12 @@ class RunWriter{
 		std::ofstream file;
 		std::filebuf *file_buffer;
 		std::string file_path;
+		size_t space_int;
 
 	public:
-		inline RunWriter(){
+		RunWriter(){
 			 file_buffer = file.rdbuf();
+			 space_int = sizeof(int);
 		}
 
 		inline std::string getFilePath(){
@@ -76,6 +83,11 @@ class RunWriter{
 		}
 
 		inline void write(int &value){
+			file.write(reinterpret_cast<char*>(&value), space_int);
+			//file << value << ' ';
+		}
+
+		inline void write(TriplesPQ::size_type value){
 			file.write(reinterpret_cast<char*>(&value), sizeof(value));
 			//file << value << ' ';
 		}
@@ -99,10 +111,12 @@ class RunReader{
 		std::ifstream file;
 		std::filebuf *file_buffer;
 		std::string file_path;
+		size_t space_int;
 
 	public:
-		inline RunReader(){
+		RunReader(){
 			 file_buffer = file.rdbuf();
+			 space_int = sizeof(int);
 		}
 
 		inline std::string getFilePath(){
@@ -116,6 +130,10 @@ class RunReader{
 		}
 
 		inline void read(int &value){
+			file.read(reinterpret_cast<char*>(&value), space_int);
+		}
+
+		inline void read(TriplesPQ::size_type value){
 			file.read(reinterpret_cast<char*>(&value), sizeof(value));
 		}
 
