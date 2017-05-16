@@ -55,7 +55,7 @@ public:
 
 		void mergeRuns(int k);
 
-		void composeIndex(std::string %output_file_path);
+		void composeIndex(std::string &output_file_path);
 };
 
 class RunWriter{

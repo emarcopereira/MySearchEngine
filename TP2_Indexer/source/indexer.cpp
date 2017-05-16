@@ -106,16 +106,8 @@ void Indexer::composeRuns(std::queue<std::string> &htmls_files_list){
 	this->logger->file << "END Ordered Runs Compositon\n";
 }
 
-//unordered_map<int, int> term_frequencies;
-/* //Counts term occurence 
-if(not term_frequencies.emplace(term_id, 1).second)
-	term_frequencies[term_id]++;
-else // Data added to memory: 2*4(int) bytes 
-	composition_memory += 8; */
-
 void Indexer::composeTriples(queue<string> &document_terms, int &document_id, TriplesPQ &ordered_triples,
 							 RunWriter &run_writer, size_t &composition_memory){
-	//unordered_map<int, int> term_frequencies;
 	int term_id, position_counter = 0;
 
 	while(!document_terms.empty()){
@@ -263,4 +255,48 @@ void Indexer::intercalateRuns(vector<shared_ptr<RunReader>> &in_run_readers, Run
 			interPQ.push( make_pair( make_tuple(value1, value2, value3), run_index) );
 		}
 	}
+}
+
+//unordered_map<int, int> term_frequencies;
+/* //Counts term occurence 
+if(not term_frequencies.emplace(term_id, 1).second)
+	term_frequencies[term_id]++;
+else // Data added to memory: 2*4(int) bytes 
+	composition_memory += 8; */
+void Indexer::composeIndex(string &output_file_path){
+	RunReader run_reader;
+	run_reader.open(this->runs_filenames.front());
+
+	RunWriter run_writer;
+	run_writer.open(output_file_path);
+
+	TriplesPQ::size_type n_tuples = 0;
+	run_reader.read(n_tuples);
+	run_writer.write(n_tuples);
+
+	int value1, value2, value3;
+	int value1b, value2b, value3b;
+
+	queue<int> positions;
+	int frequency;
+
+	run_reader.read(value1); run_reader.read(value2);
+	long n_tuples_int = n_tuples;
+	while(n_tuples_int > 0){
+		do{	
+			run_reader.read(value3b);
+			positions.push(value3b); n_tuples_int--;
+			run_reader.read(value1b); run_reader.read(value2b);
+		}while(value1b == value1 && value2b == value2 && n_tuples_int);
+
+		frequency = positions.size();
+		while(!positions.empty()){
+			run_writer.write(value1); run_writer.write(value2); run_writer.write(frequency); run_writer.write(positions.front()); run_writer.file << '\n';
+			positions.pop();
+		}
+
+		value1 = value1b; value2 = value2b;
+	}
+
+	run_reader.close(); run_writer.close();
 }
