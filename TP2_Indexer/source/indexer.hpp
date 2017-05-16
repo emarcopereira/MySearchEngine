@@ -55,7 +55,7 @@ public:
 
 		void mergeRuns(int k);
 
-		void composeIndex();
+		void composeIndex(std::string %output_file_path);
 };
 
 class RunWriter{
@@ -130,11 +130,13 @@ class RunReader{
 		}
 
 		inline void read(int &value){
-			file.read(reinterpret_cast<char*>(&value), space_int);
+			//file.read(reinterpret_cast<char*>(&value), space_int);
+			file >> value;
 		}
 
-		inline void read(TriplesPQ::size_type value){
-			file.read(reinterpret_cast<char*>(&value), sizeof(value));
+		inline void read(TriplesPQ::size_type &value){
+			//file.read(reinterpret_cast<char*>(&value), sizeof(value));
+			file >> value;
 		}
 
 		/*inline void dump(){

@@ -10,8 +10,8 @@ all: clean build
 build: test_indexer #test_logger #test_run_writer #test_indexer #test_parser
 	#$(COMMAND) $(OP) $(OBJ_DIR)/test_run_writer.o -o test_exec
 	#$(COMMAND) $(OP) $(OBJ_DIR)/logger.o $(OBJ_DIR)/test_logger.o -o test_exec
-	#$(COMMAND) $(OP) $(GUMBO_OP) $(ICU_OP) $(OBJ_DIR)/parser.o $(OBJ_DIR)/indexer.o $(OBJ_DIR)/test_parser.o -o test_exec
-	$(COMMAND) $(OP) $(GUMBO_OP) $(ICU_OP) $(OBJ_DIR)/stop_words_table.o $(OBJ_DIR)/vocabulary.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/parser.o $(OBJ_DIR)/indexer.o $(OBJ_DIR)/test_indexer.o -o test_exec
+	#$(COMMAND) $(OP) $(GUMBO_OP) $(ICU_OP) $(OBJ_DIR)/parser.o $(OBJ_DIR)/indexer.o $(OBJ_DIR)/test_parser.o $(GUMBO_OP) $(ICU_OP) -o test_exec
+	$(COMMAND) $(OP) $(GUMBO_OP) $(ICU_OP) $(OBJ_DIR)/stop_words_table.o $(OBJ_DIR)/vocabulary.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/parser.o $(OBJ_DIR)/indexer.o $(OBJ_DIR)/test_indexer.o $(GUMBO_OP) $(ICU_OP) -o test_exec
 	#$(COMMAND) $(OP) $(IOP) $(OBJ_DIR)/url.o $(OBJ_DIR)/dumper.o $(OBJ_DIR)/logger.o $(OBJ_DIR)/spider.o $(OBJ_DIR)/monitor.o $(OBJ_DIR)/crawler.o $(OBJ_DIR)/main.o $(LIB) $(OP) -o main
 
 main: indexer
